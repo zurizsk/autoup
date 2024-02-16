@@ -1,13 +1,13 @@
 import os
 import pathlib
 import requests
-from flask import Blueprint, render_template, session, abort, redirect, request
+from flask import Blueprint, render_template, abort, redirect, url_for, request, session
 from google.oauth2 import id_token
 from google_auth_oauthlib.flow import Flow
 from pip._vendor import cachecontrol
 import google.auth.transport.requests
 
-views = Blueprint(__name__, "views")
+views = Blueprint(__name__, "views", static_folder="static", template_folder="templates")
 request_session = requests.Session()
 
 Google_Client_ID = "926083527735-ste8ur2scs0li21ajl5thfq8j0hcpufr.apps.googleusercontent.com"
@@ -23,7 +23,7 @@ flow = Flow.from_client_secrets_file(
 def login_is_required(function):
     def wrapper(*args, **kwargs):
         if "google_id" not in session:
-            return abort(401)  # Authorization required
+            return redirect(url_for("views.login"))  # abort(401)  # Authorization required
         else:
             return function()
 
@@ -32,7 +32,38 @@ def login_is_required(function):
 
 @views.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("default_scr.html")
+
+
+@views.route("/uploadToYT")
+def uploadToYT():
+    return render_template("uploadToYT_scr.html")
+
+
+@views.route("/personal")
+def personal():
+    return render_template("personal_scr.html")
+
+
+@views.route("/pleaselogin")
+def loginreq():
+    return render_template("login_scr.html")
+
+
+@views.route("/home")
+def mainhome():
+    return render_template("home_scr.html")
+
+
+@views.route("/uploadmedia")
+@login_is_required
+def upload():
+    return render_template("uploadMedia_scr.html")
+
+
+@views.route("/selectitems")
+def select():
+    return render_template("select_scr.html")
 
 
 @views.route("/login")
@@ -62,16 +93,16 @@ def callback():
 
     session["google_id"] = id_info.get("sub")
     session["name"] = id_info.get("name")
-    return redirect("protected_area")
+    return redirect(url_for("views.wrapper"))
 
 
 @views.route("/logout")
 def logout():
     session.clear()
-    return redirect("/views")
+    return redirect("logout_scr.html")
 
 
 @views.route("/protected_area")
-@login_is_required
+# @login_is_required
 def protected_area():
-    return render_template("main.html",name = session['name'])
+    return render_template("main.html", name=session['name'])
