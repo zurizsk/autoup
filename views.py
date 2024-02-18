@@ -44,12 +44,6 @@ def uploadToYT():
 def personal():
     return render_template("personal_scr.html")
 
-
-@views.route("/pleaselogin")
-def loginreq():
-    return render_template("login_scr.html")
-
-
 @views.route("/home")
 def mainhome():
     return render_template("home_scr.html")
