@@ -80,11 +80,18 @@ def callback():
     token_request = google.auth.transport.requests.Request(session=cached_session)
 
     id_info = id_token.verify_oauth2_token(
-        id_token=credentials._id_token,
+        id_token= credentials._id_token,
         request=token_request,
         audience=flow.client_config.get("client_id")
     )
 
+    session['credentials'] = {
+        'token': credentials.token,
+        'refresh_token': credentials.refresh_token,
+        'token_uri': credentials.token_uri,
+        'client_id': credentials.client_id,
+        'client_secret': credentials.client_secret,
+        'scopes': credentials.scopes}
     session["google_id"] = id_info.get("sub")
     session["name"] = id_info.get("name")
     return redirect(url_for("views.wrapper"))
@@ -93,7 +100,10 @@ def callback():
 @views.route("/logout")
 def logout():
     session.clear()
-    return redirect("logout_scr.html")
+    requests.post('https://oauth2.googleapis.com/revoke',
+                  params={'token': id_token},
+                  headers={'content-type': 'application/x-www-form-urlencoded'})
+    return redirect(url_for("views.home"))
 
 
 @views.route("/protected_area")

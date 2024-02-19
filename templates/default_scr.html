@@ -6,11 +6,11 @@
     <meta name="keywords" content="​Purchase, ​Free, ​$9/month, ​$12/month">
     <meta name="description" content="">
     <title>default_scr</title>
-    <link rel="stylesheet" href="static/assets/css/nicepage.css" media="screen">
-    <link rel="stylesheet" href="static/assets/css/default_scr.css" media="screen">
+    <link rel="stylesheet" href="{{url_for('static', filename='assets/css/nicepage.css')}}" }}>
+    <link rel="stylesheet" href="{{url_for('static', filename='assets/css/default_scr.css')}}" media="screen">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script class="u-script" type="text/javascript" src="static/assets/js/jquery-1.9.1.min.js" defer=""></script>
-    <script class="u-script" type="text/javascript" src="static/assets/js/nicepage.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{{url_for('static', filename='assets/js/jquery-1.9.1.min.js')}}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{{url_for('static', filename='assets/js/nicepage.js')}}" defer=""></script>
     <meta name="generator" content="Nicepage 6.5.2, nicepage.com">
     <meta name="referrer" content="origin">
     <link id="u-theme-google-font" rel="stylesheet"
@@ -40,7 +40,7 @@
                 <i class="fas fa-times close-btn"></i>
                 <h2>Login First</h2>
                 <p>Login first before starting uploading your Videos</p>
-                <a href="{{url_for('views.login') }}" class="GoogleSignIn">Sign in with google<img scr='static/images/Google__G__logo.svg.png' class="GoogleIcon"/></a>
+                <a href="{{url_for('views.login') }}" class="GoogleSignIn">Sign in with Google<img scr='static/images/Google__G__logo.svg.png' class="GoogleIcon"/></a>
             </div>
         </div>
 <div class="u-clearfix u-sheet u-sheet-1">
@@ -727,24 +727,7 @@
         <span>Website Builder</span>
     </a>.
 </section>
-    <script type="text/javascript">
-        const popupLoginScreen = document.querySelector(".popupLogin-screen");
-        const closeBtn = document.querySelector(".close-btn");
-        const openLoginBtn = document.querySelector(".u-btn-2");
-
-       if(openLoginBtn)
-       {
-         openLoginBtn.addEventListener("click", ()=>{
-            popupLoginScreen.classList.add("active") && console.log('Button clicked!');
-        });
-       }
-
-
-        closeBtn.addEventListener("click",()=>{
-            popupLoginScreen.classList.remove("active")
-        });
-
-
+    <script src="{{ url_for('static', filename='assets/js/loginPopUp.js') }}">
     </script>
 </body>
 </html>
