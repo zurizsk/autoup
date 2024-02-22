@@ -85,10 +85,13 @@
                 <div class="u-container-layout u-container-layout-1">
                   <h1 class="u-align-left-xs u-custom-font u-font-montserrat u-text u-text-palette-2-base u-text-1">Select your Media<br>
                   </h1>
-                  <form action="/action_page.php" method="post" enctype="multipart/form-data">
-                    <input type="file" id="myFile" name="filename">
+                  <form action="/action_page.php" method="post" enctype="multipart/form-data" id="videoForm">
+                    <input type="file" id="myFile" name="filename" accept="video/*">
                     <input type="submit">
+                     <a href="{{url_for('views.uploadToYT')}}">Weiter</a>
                 </form>
+                    <video controls class="aspect-video w-full" id="videoEL"
+                        >Your browser does not support the video preview</video>
                 </div>
               </div>
               <div class="u-align-center u-container-style u-layout-cell u-right-cell u-size-30 u-size-xs-60 u-layout-cell-2" src="">
@@ -177,5 +180,17 @@
         <span>Website Builder</span>
       </a>. 
     </section>
-  
+  <script>
+      type="text/javascript"
+      const videoForm = document.getElementById('videoForm');
+      const fileinput = document.getElementById('myFile') ;
+      const videoEL = document.getElementById('videoEL');
+
+      fileinput.addEventListener('change', (event)=>{
+          if (event.target.files && event.target.files[0]){
+              videoEL.src = URL.createObjectURL(event.target.files[0]);
+              videoEL.load()
+          }
+      })
+  </script>
 </body></html>
