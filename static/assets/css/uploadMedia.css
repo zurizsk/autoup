@@ -1,3 +1,87 @@
+.input[type=submit]{
+  background-color: #04AA6D;
+}
+
+
+.popupSelect-box select {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.popupSelect-box a {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.popupSelect-box a:hover {
+    background-color: #0056b3;
+}
+
+
+.popupSelect-screen{
+  z-index: 999999;
+  position: fixed;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  transition: 0.5s ease;
+  transition-property: hidden;
+}
+.popupSelect-screen.active{
+  visibility: visible;
+}
+.popupSelect-box
+{
+  position: relative;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px);
+  max-width: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 20px;
+  padding: 50px 40px;
+  border-radius: 20px;
+  box-shadow: 0 5px 25px rgb(0 0 0/ 20%);
+  transform: scale(0);
+  transition: 0.5s ease;
+  transition-property: transform;
+}
+.popupSelect-screen.active .popupSelect-box{
+  transform: scale(1);
+}
+
+.close-btn{
+  position: absolute;
+  font-size:1em;
+  top: 0;
+  right: 0;
+  margin: 15px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 0.3s ease;
+  transition-property: opacity;
+}
+
+.close-btn:hover{
+  opacity: 1;
+}
+
+
+
 .u-section-1 .u-sheet-1 {
   min-height: 810px;
 }

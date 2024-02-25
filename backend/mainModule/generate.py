@@ -1,4 +1,3 @@
-import sys
 from openai import OpenAI
 import csv
 import whisper
