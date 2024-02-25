@@ -68,6 +68,22 @@ class Title:
         )
         return response.choices[0].message.content
 
+    def generate_title_from_aspects(self):
+        if self.aspect_text is None:
+            self.aspect_text = self.generate_aspect_suggestions()
+        else:
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "You are supposed to generate 5 titles for a "
+                                                  "youtube video based on the following transcript."},
+                    {"role": "user", "content": "Make the titles short and intriguing. max 6 words. bring in the "
+                                                "following aspects: " + self.aspect_text +
+                                                "here is a transcript: " + self.transcription}
+                ]
+            )
+            return response.choices[0].message.content
+
     def get_aspect_suggestions(self):
         return type(self.aspect_text)
 
