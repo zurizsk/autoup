@@ -3,11 +3,94 @@ from openai import OpenAI
 import csv
 import whisper
 import json
+import subprocess
 
 client = OpenAI()
 
 
-import subprocess
+def load_transcription(file_name):
+    f = open(file_name, 'r')
+    return json.load(f)['transcription']
+
+
+class Description:
+    def __init__(self, description_text = None, file_name='transcription.json'):
+        self.file_name = file_name
+        self.transcription = load_transcription(self.file_name)
+        self.description_text = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are supposed to generate a description for a youtube "
+                                              "video based on the following transcript."},
+                {"role": "user", "content": "Make the description intriguing. max 100 words. bring in the "
+                                            "drama here is a transcript: " + self.transcription}
+            ]
+        )
+
+    def get_description(self):
+        return self.description_text
+
+
+class Title:
+    def __init__(self, file_name='transcription.json'):
+        self.file_name = file_name
+        self.transcription = load_transcription(self.file_name)
+        self.title_text = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are supposed to generate 5 titles for a youtube video based on the "
+                                              "following transcript."},
+                {"role": "user", "content": "Make the titles short and intriguing. max 6 words. bring in the drama"
+                                            "here is a transcript: " + self.transcription}
+            ]
+        )
+        self.aspect_text = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "you are supposed to generate 5 aspects of the given transcript, "
+                                              "it will be used to allow insert into the title. give broad terms "
+                                              "such as but not limited to: drama, challenge, comedy, etc. based on the "
+                                              "transcript. an aspect is usually one or two words describing a theme "
+                                              "or topic. the following transcript."},
+                {"role": "user", "content": "Here is a transcript: " + self.transcription}
+            ]
+        )
+
+    def get_aspect_suggestions(self):
+        return self.aspect_text
+
+    def get_title(self):
+        return self.title_text
+
+
+class Tags:
+    def __init__(self, file_name='transcription.json'):
+        self.file_name = file_name
+        self.transcription = load_transcription(self.file_name)
+        self.tags_text = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "you are supposed to generate 20 tags appropriate for a youtube video "
+                                              "based on the given transcript. "},
+                {"role": "user", "content": "Here is a transcript: " + self.transcription}
+            ]
+        )
+
+    def get_tags(self):
+        return self.tags_text
+
+
+class Video:
+    def __init__(self, title=None, description=None, tags=None, aspect=None, file_name='transcription.json'):
+        self.file_name = file_name
+        self.title = Title(file_name).get_title()
+        self.description = Description(file_name).get_description()
+        self.tags = Tags(file_name).get_tags()
+        self.aspect = self.title.get_aspect_suggestions()
+
+    def get_video(self):
+        return self.title, self.description, self.tags, self.aspect
+
 
 def convert_video_to_audio(input_file, output_file, sample_rate=44100, channels=2):
     command = [
@@ -62,7 +145,8 @@ def generate_title_aspect_suggestions(file_name='transcription.json'):
     completion = client.chat.completions.create(
       model="gpt-3.5-turbo",
       messages=[
-        {"role": "system", "content": "you are supposed to generate 5 aspects of the given, it will be used to allow "
+        {"role": "system", "content": "you are supposed to generate 5 aspects of the given transcript, it will be "
+                                      "used to allow"
                                       "the user to select aspects to insert into the title. give broad terms such as "
                                       "but not limited to: drama, challenge, comedy, etc. based on the transcript."
                                       "an aspect is usually one or two words describing a theme or topic."
@@ -79,7 +163,7 @@ def generate_title_from_transcript(file_name='transcription.json'):
     completion = client.chat.completions.create(
       model="gpt-3.5-turbo",
       messages=[
-        {"role": "system", "content": "You are supposed to generate 5 title for a youtube video based on the "
+        {"role": "system", "content": "You are supposed to generate 5 titles for a youtube video based on the "
                                       "following transcript."},
         {"role": "user", "content": "Make the titles short and intriguing. max 6 words. bring in the drama here is a "
                                     "transcript: " + text}
@@ -88,7 +172,24 @@ def generate_title_from_transcript(file_name='transcription.json'):
     return completion
 
 
-print(generate_title_aspect_suggestions('transcription.json'))
-print(generate_title_from_transcript('transcription.json'))
+def generate_description_from_transcript(file_name='transcription.json'):
+    f = open(file_name, 'r')
+    text = json.load(f)['transcription']
+    completion = client.chat.completions.create(
+      model="gpt-3.5-turbo",
+      messages=[
+        {"role": "system", "content": "You are supposed to generate a description for a youtube video based on the "
+                                      "following transcript."},
+        {"role": "user", "content": "Make the description intriguing. max 100 words. bring in the drama here is a "
+                                    "transcript: " + text}
+      ]
+    )
+    return completion
 
 
+# print(generate_title_aspect_suggestions('transcription.json'))
+# text = generate_title_from_transcript('transcription.json')
+
+v1 = Video()
+
+print(v1.get_video())
