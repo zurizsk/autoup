@@ -16,7 +16,10 @@ class Description:
     def __init__(self, description_text=None, file_name='transcription.json'):
         self.file_name = file_name
         self.transcription = load_transcription(self.file_name)
-        self.description_text = self.generate_description()
+        if description_text is None:
+            self.description_text = self.generate_description()
+        else:
+            self.description_text = description_text
 
     def generate_description(self):
         response = client.chat.completions.create(
@@ -153,8 +156,7 @@ def convert_video_to_audio(input_file, output_file, sample_rate=44100, channels=
 
 
 # Example usage
-input_video = 'vid.mp4'
-output_audio = 'audio.mp3'
+
 
 
 def transcribe(audio_path="audio.mp3"):
@@ -191,8 +193,8 @@ def generate_title_aspect_suggestions(file_name='transcription.json'):
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "you are supposed to generate 5 aspects of the given transcript, it will be "
-                                          "used to allow"
-                                          "the user to select aspects to insert into the title. give broad terms such as "
+                                          "used to allow the user to select aspects to insert into the title. "
+                                          "give broad terms such as "
                                           "but not limited to: drama, challenge, comedy, etc. based on the transcript."
                                           "an aspect is usually one or two words describing a theme or topic."
                                           "the following transcript."},
@@ -233,9 +235,24 @@ def generate_description_from_transcript(file_name='transcription.json'):
     return completion
 
 
-# print(generate_title_aspect_suggestions('transcription.json'))
-# text = generate_title_from_transcript('transcription.json')
+input_video = 'I tried using AI. It scared me.mp4'
+output_audio = 'audio.mp3'
+
+transcription_text = convert_and_transcribe(input_video)
+save_transcription_to_json(transcription_text)
 
 v1 = Video()
-
 print(v1.get_video())
+
+
+
+
+
+
+
+
+
+
+
+
+
