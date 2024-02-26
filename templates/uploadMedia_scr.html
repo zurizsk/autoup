@@ -171,6 +171,7 @@
                             <form>
                                 <input type="file" id="myFile" name="file" accept="video/*">
                                 <input type="submit">
+                                <button id="uploadmedia" name="button">Continue</button>
                             </form>
                             <video controls class="aspect-video w-full" id="videoEL"
                             >Your browser does not support the video preview
@@ -232,10 +233,20 @@
     </div>
 </section>
 <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-c677">
-    <div class="u-clearfix u-sheet u-sheet-1">
-        <p class="u-small-text u-text u-text-variant u-text-1">Sample text. Click to select the text box. Click again or
-            double click to start editing the text.</p>
-    </div>
+    <div class="absolute-footer dark medium-text-center small-text-center">
+  <div class="container clearfix">
+
+          <div class="footer-secondary pull-right">
+                  <div class="footer-text inline-block small-block">
+            <a href="https://autoup.com/gtc/">GTC</a> &nbsp; | &nbsp; <a href="https://autoup.com/impressum/">Legal Notice</a> &nbsp; | &nbsp; <a href="https://autoup.com/privacypolicy/">Privacy Policy</a> &nbsp; | &nbsp; <a href="https://autoup.com.com/Rightofcancellation/">Right of Cancellation</a> <br> <br>          </div>
+                      </div>
+
+    <div class="footer-primary pull-left">
+            <div class="copyright-footer">
+        Copyright 2024 © <strong>Autoup</strong> supported by <a href="https://autoup.com/" target="_blank"> Company Name | Company</a>      </div>
+          </div>
+  </div>
+</div>
 </footer>
 <section class="u-backlink u-clearfix u-grey-80">
     <a class="u-link" href="html-templates" target="_blank">
@@ -267,7 +278,7 @@
     type = "text/javascript"
     const popupSelectScreen = document.querySelector(".popupSelect-screen");
     const closeSelectBtn = document.querySelector(".close-btn");
-    const openSelectBtn = document.querySelector(".input");
+    const openSelectBtn = document.querySelector("button");
     var fileInput = document.getElementById('myFile');
 
     document.getElementById('uploadmedia').addEventListener("click", function (event) {

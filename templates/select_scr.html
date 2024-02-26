@@ -29,10 +29,29 @@
 <div class="popupUploadToYT-screen">
     <div class="popupUploadToYT-box">
         <i class="fas fa-times close-btn"></i>
-        <h2>Select a Aspect </h2>
-        <select id="selectAspect">
-            <option></option>
-        </select>
+        <h2>Check before upload </h2>
+         <form id="uploadForm" action="{{ url_for('views.uploadToYT') }}" method="POST">
+            <div class="form-group">
+                <label for="videoTitle">Title:</label>
+                <input type="text" id="videoTitle" name="videoTitle" required>
+            </div>
+            <div class="form-group">
+                <label for="videoDescription">Description:</label>
+                <textarea id="videoDescription" name="videoDescription" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="videoTags">Tags:</label>
+                <input type="text" id="videoTags" name="videoTags" required>
+            </div>
+            <div class="form-group">
+                <label for="privacyStatus">Privacy Status:</label>
+                <select id="privacyStatus" name="privacyStatus" required>
+                    <option value="private">Private</option>
+                    <option value="public">Public</option>
+                    <option value="unlisted">Unlisted</option>
+                </select>
+            </div>
+        </form>
         <a href="{{ url_for('views.uploadToYT') }}" class="ToSelectionScreen">Continue with Text generation</a>
     </div>
 </div>
@@ -175,10 +194,20 @@
 
 
 <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-c677">
-    <div class="u-clearfix u-sheet u-sheet-1">
-        <p class="u-small-text u-text u-text-variant u-text-1">Sample text. Click to select the text box. Click again or
-            double click to start editing the text.</p>
-    </div>
+    <div class="absolute-footer dark medium-text-center small-text-center">
+  <div class="container clearfix">
+
+          <div class="footer-secondary pull-right">
+                  <div class="footer-text inline-block small-block">
+            <a href="https://autoup.com/gtc/">GTC</a> &nbsp; | &nbsp; <a href="https://autoup.com/impressum/">Legal Notice</a> &nbsp; | &nbsp; <a href="https://autoup.com/privacypolicy/">Privacy Policy</a> &nbsp; | &nbsp; <a href="https://autoup.com.com/Rightofcancellation/">Right of Cancellation</a> <br> <br>          </div>
+                      </div>
+
+    <div class="footer-primary pull-left">
+            <div class="copyright-footer">
+        Copyright 2024 © <strong>Autoup</strong> supported by <a href="https://autoup.com/" target="_blank"> Company Name | Company</a>      </div>
+          </div>
+  </div>
+</div>
 </footer>
 <section class="u-backlink u-clearfix u-grey-80">
     <a class="u-link" href="https://nicepage.com/website-templates" target="_blank">
