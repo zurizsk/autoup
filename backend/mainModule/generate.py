@@ -213,7 +213,7 @@ def generate_title_from_transcript(file_name='transcription.json'):
             {"role": "system", "content": "You are supposed to generate 5 titles for a youtube video based on the "
                                           "following transcript."},
             {"role": "user",
-             "content": "Make the titles short and intriguing. max 6 words. bring in the drama here is a "
+             "content": "Make the titles short and intriguing. max 6 words. here is a "
                         "transcript: " + text}
         ]
     )
