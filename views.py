@@ -3,7 +3,6 @@ import pathlib
 import random
 import sys
 import time
-import generate
 
 import google.auth.transport.requests
 import httplib2
@@ -153,9 +152,9 @@ def upload():
     return render_template("uploadMedia_scr.html")
 
 
-@views.route("/uploadmedia/<filename>", methods=['POST'])
+@views.route("/uploadmedia/<filename>")
 def getuploadedSelectedAspect(filename, aspect):
-    generate.generate_title_aspect_suggestions(filename)
+    #generate.generate_title_aspect_suggestions(filename)
     return render_template("uploadMedia_scr.html", file=filename, aspect=aspect)
 
 
